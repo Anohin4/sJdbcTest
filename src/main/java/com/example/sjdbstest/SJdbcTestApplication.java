@@ -29,13 +29,18 @@ public class SJdbcTestApplication {
   public void init() {
     SimpleJdbcInsert simpleJdbcInsert = new SimpleJdbcInsert(jdbcTemplate.getDataSource())
         .withTableName("Person")
-        .usingGeneratedKeyColumns("id");
+        .usingGeneratedKeyColumns("ID");
     jdbcTemplate.execute(
         "CREATE TABLE IF NOT EXISTS Person(id INT NOT NULL PRIMARY KEY , name VARCHAR NOT NULL, address VARCHAR NOT NULL )");
-    Map<String, String> person1 = Map.of("name", "Evge123", "address", "treqw");
-    Map<String, String> person2 = Map.of("name", "Evge11223", "address", "1treqw");
-    simpleJdbcInsert.executeAndReturnKey(new MapSqlParameterSource(person1));
-    simpleJdbcInsert.executeAndReturnKey(new MapSqlParameterSource(person2));
+    MapSqlParameterSource person1 = new MapSqlParameterSource()
+        .addValue("name", "Evge123")
+        .addValue("address", "treqw");
+    MapSqlParameterSource person2 = new MapSqlParameterSource()
+        .addValue("name", "12Evge123")
+        .addValue("address", "12treqw");
+
+    simpleJdbcInsert.executeAndReturnKey(person1);
+    simpleJdbcInsert.executeAndReturnKey(person2);
     System.out.println(jdbcPersonRepository.findAll());
     System.out.println(jdbcPersonRepository.findOne(1));
   }
