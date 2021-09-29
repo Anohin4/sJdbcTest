@@ -32,9 +32,10 @@ public class SJdbcTestApplication {
         .usingGeneratedKeyColumns("id");
     jdbcTemplate.execute(
         "CREATE TABLE IF NOT EXISTS Person(id INT NOT NULL PRIMARY KEY , name VARCHAR NOT NULL, address VARCHAR NOT NULL )");
-    Person person = new Person(1, "Evg", "qwe");
-    simpleJdbcInsert.executeAndReturnKey(new MapSqlParameterSource(Map.of("name", "Evge123", "address", "treqw")));
-    simpleJdbcInsert.executeAndReturnKey(new MapSqlParameterSource(Map.of("name", "Evge11223", "address", "1treqw")));
+    Map<String, String> person1 = Map.of("name", "Evge123", "address", "treqw");
+    Map<String, String> person2 = Map.of("name", "Evge11223", "address", "1treqw");
+    simpleJdbcInsert.executeAndReturnKey(new MapSqlParameterSource(person1));
+    simpleJdbcInsert.executeAndReturnKey(new MapSqlParameterSource(person2));
     System.out.println(jdbcPersonRepository.findAll());
     System.out.println(jdbcPersonRepository.findOne(1));
   }
